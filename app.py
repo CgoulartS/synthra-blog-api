@@ -9,7 +9,7 @@ app = Flask(__name__)
 CORS(app, origins=["https://synthraia.com.br", "http://localhost:3000"] )
 
 # Usar /tmp para arquivos temporários na Vercel
-POSTS_FILE = '/tmp/blog_posts.json'
+POSTS_FILE = 'blog_posts.json'
 
 def load_posts():
     """Carrega posts existentes do arquivo JSON"""
@@ -122,6 +122,7 @@ def webhook_make():
             'error': str(e)
         }), 500
 
-# Para Vercel
-def handler(request):
-    return app(request.environ, lambda *args: None)
+if __name__ == '__main__':
+    import os
+    port = int(os.environ.get('PORT', 5001))
+    app.run(host='0.0.0.0', port=port, debug=False)
